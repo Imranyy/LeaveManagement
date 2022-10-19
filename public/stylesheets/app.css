@@ -57,6 +57,14 @@ p {
   display: table;
   clear: both;
 }
+.registerForm{
+  position: relative; 
+  border-radius: 5px;
+  background-color: #f2f2f2; 
+  margin-top: 70px; 
+  height: 570px;  
+  width: 600px;
+}
 .carousel {
   margin-bottom: 60px;
 }
@@ -140,3 +148,13 @@ li a:hover {
 .content-table tbody tr:last-of-type {
   border-bottom: 2px solid rgb(9, 1, 19);
 }
+@media screen and (max-width:650px) {
+  body{
+    background-color: #4caf50;
+    
+  }
+  .registerForm{
+    margin: 70px auto;
+    width: 500px;
+  }
+}  

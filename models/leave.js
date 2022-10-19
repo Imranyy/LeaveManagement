@@ -1,7 +1,9 @@
-var mongoose = require("mongoose");
-var leaveSchema = new mongoose.Schema(
-  {
-    subject: { type: String, required: "subject cant be blank" },
+const mongoose = require("mongoose");
+const Schema=mongoose.Schema;
+const leaveSchema = new Schema({
+    subject: { 
+      type: String, 
+      required: true },
     from: Date,
     to: Date,
     days: Number,
