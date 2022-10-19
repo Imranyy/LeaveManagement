@@ -1,14 +1,4 @@
 <% include ./partial/header %>
-<div class="lop"style="border:1px solid pink;">
-    <% if (locals.errors) { %>
-      <div class="alert alert-danger" role="alert"style="">
-        <% locals.errors.forEach(function(errors) { %>
-        <h5><%= errors.msg %></h5>
-
-        <% }); %>
-      </div>
-      <% } %>
-</div>
 <div class="container card registerForm">
         <form action="/student/register" method="POST">
           <div class="row">
@@ -17,7 +7,6 @@
                 Register
               </h2>
               <div class="form-group form-inline">
-                <!--<label for="name" style="margin-right: 10px; display: inline-block; ">Name</label>-->
                 <input class="form-control" type="text" id="name" placeholder="name" name="name" style="width: 100%;"/>
               </div>
               <!-- type -->
@@ -34,10 +23,6 @@
 
               <!-- id -->
               <div class="form-group form-inline">
-                  <!--<label for="username" style="width: 200px;
-                  display: inline-block;
-                  text-align: right;
-                  ">Username</label>-->
                 <input
                   class="form-control"
                   type="text"
@@ -50,10 +35,6 @@
               </div>
               <!-- password -->
               <div class="form-group form-inline">
-                  <!--<label for="password"style="width: 200px;
-                  display: inline-block;
-                  text-align: right;
-                  ">Password</label>-->
                 <input
                   class="form-control"
                   type="password"
@@ -65,10 +46,6 @@
               </div>
               <!-- confirm password -->
               <div class="form-group form-inline">
-                  <!--<label for="cpassword"style="width: 200px;
-                  display: inline-block;
-                  text-align: right;
-                  ">Confirm Password</label>-->
                 <input
                   class="form-control"
                   type="password"
@@ -81,10 +58,6 @@
               </div>
               <!-- Department -->
               <div class="form-group form-inline">
-                  <!--<label for="department"style="width: 200px;
-                  display: inline-block;
-                  text-align: right;
-                  ">Department</label>-->
                 <input
                   class="form-control"
                   type="text"
@@ -97,10 +70,6 @@
               </div>
               <!-- hostel -->
               <div class="form-group form-inline">
-                  <!--<label for="hostel"style="width: 200px;
-                  display: inline-block;
-                  text-align: right;
-                  ">Hostel</label>-->
                 <input
                   class="form-control"
                   type="text"
@@ -113,10 +82,6 @@
               </div>
               <!-- image -->
               <div class="form-group form-inline">
-                  <!--<label for="img"style="width: 200px;
-                  display: inline-block;
-                  text-align: right;
-                  ">Image Url</label>-->
                 <input
                   class="form-control"
                   type="text"
@@ -148,3 +113,11 @@
   </div>
   <% include ./partial/footer %>
 </div>
+<!-- <script>
+  const form =document.querySelector('form');
+  const frm_grp=document.querySelector('.form-group')
+  frm_grp.addEventListener('click',()=>{
+     const std=document.querySelector('.opt1');
+     std.style.diplay='block';
+  });
+</script> -->
