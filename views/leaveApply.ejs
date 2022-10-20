@@ -8,13 +8,14 @@ margin-left: 431px;
 margin-top: -181px;  text-align: -webkit-center;"
 >
   <h1>Apply for leave here <%=student.name%></h1>
-  <form action="/student/<%=student._id%>/apply" method="POST">
+  <form action="/student/apply/<%=student._id%>" method="POST">
     <div class="form-group">
       <input
         type="text"
         placeholder="subject"
         name="leave[subject]"
         class="form-control"
+        required
       />
     </div>
     <div class="form-group">
@@ -24,6 +25,7 @@ margin-top: -181px;  text-align: -webkit-center;"
         data-date-inline-picker="true"
         id="from"
         name="leave[from]"
+        required
       />
     </div>
     <div class="form-group">
@@ -33,6 +35,7 @@ margin-top: -181px;  text-align: -webkit-center;"
         data-date-inline-picker="true"
         id="to"
         name="leave[to]"
+        required
       />
     </div>
 

@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 const hodSchema = new mongoose.Schema({
+  leaves: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Leave"
+    }
+  ],
   name: {
     type:String,
     require:true

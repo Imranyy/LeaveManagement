@@ -5,10 +5,11 @@ border-radius: 5px;
 background-color: #f2f2f2;
 padding: 20px 0 30px 0;
 width: 40%;
+margin-top: 70px;
 
 ">
   
-      <form action="/warden/<%=warden._id%>?_method=PUT" method="POST">
+      <form action="/warden/<%=warden._id%>?_method=PUT" >
         <div class="row">
           <div class="col">
             <h1 style="text-align:center;">Edit Profile<%= warden.name%></h1>
@@ -87,7 +88,7 @@ width: 40%;
           </div>
         </div>
       </form>
-      <a href="/warden/profile">Back</a>
+      <a href="/warden/<%=warden.id%>" style="margin-left: 20px;">Back</a>
     </div>
   </div>
 </div>

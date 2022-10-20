@@ -1,8 +1,7 @@
 const Warden = require("../models/warden"),
 Hod = require("../models/hod"),
 Student = require("../models/student"),
-Leave = require("../models/leave");
-jwt=require('jsonwebtoken'),
+jwt=require('jsonwebtoken');
 require('dotenv').config();
 
 
