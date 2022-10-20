@@ -6,7 +6,7 @@ This project is an interactive leave application portal which includes Student l
 
 - Backednd : NodeJS,
 - Database : Mongodb
-- FrontEnd : JS, Html, css
+- FrontEnd : JS, Html, css, ejs
 - Framework : Express
 
 ## Usage
@@ -23,7 +23,16 @@ This project is an interactive leave application portal which includes Student l
    ```bash
    node app.js
    ```
-4. Open the url `http://localhost:3005` in browser for seeing the result
+4. Open the url `http://localhost:5000` in browser for seeing the result
+
+5. Enviroment variable <br/>
+DATABASE= <-mongodb atlas uri-><br/>
+LOCALURI= <-mongodb local uri-><br/>
+JWT_SECRET=<-jwt secret key->
+
+# Easy way to deploy:- :rocket:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Imranyy/LeaveManagement)
 
 ## Screenshot
 
