@@ -71,14 +71,14 @@ p {
 .fixed-height {
   max-height: 400px;
 }
-.carousel-item {
+/* .carousel-item {
   min-height: 300px;
   background: no-repeat center center scroll;
   -webkit-background-size: cover;
   background-size: 100% 100%;
-}
+} */
 
-.carousel-caption h5 {
+/* .carousel-caption h5 {
   font-size: 45px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -89,7 +89,7 @@ p {
   margin: auto;
   font-size: 20px;
   line-height: 1.9;
-}
+} */
 li a:hover {
   background-color: #535555;
 }
@@ -117,10 +117,6 @@ li a:hover {
   border-bottom: 2px solid rgb(9, 1, 19);
 }
 @media screen and (max-width:650px) {
-  body{
-    background-color: #4caf50;
-    
-  }
   .registerForm{
     margin: 70px auto;
     width: 500px;
