@@ -4,7 +4,7 @@ const express=require('express'),
 require('dotenv').config();
  
 //connect to mongodb
-mongoose.connect(process.env.LOCALURI,{
+mongoose.connect(process.env.DATABASE,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 }).then(()=>{
