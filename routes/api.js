@@ -201,7 +201,7 @@ router.get('/student/home/:id',async(req,res)=>{
     const stdReal= await Student.findById({_id:id})
     if(stdReal){
       try{
-        const findStdLeaves=await Leave.find({std_id:id})
+        const findStdLeaves=await Leave.find({std_id:id}).sort({createdAt:-1})
         const findStdDetails=await Student.findById({_id:id})
         res.render("homestud", { student: findStdDetails, Leav:findStdLeaves });
       }catch(err){
@@ -335,7 +335,7 @@ router.get("/student/:id/track", async(req, res) => {
   //const wrden=await Warden.findById({});
   if(std){
     try{
-      const leavestd=await Leave.find({std_id:id})
+      const leavestd=await Leave.find({std_id:id}).sort({createdAt:-1})
       res.render("trackLeave", {student:std, leav: leavestd });
     }catch(err){
       res.redirect("/student/home/" +req.params.id);
@@ -415,7 +415,7 @@ router.get("/hod/:id/leave", async(req, res) => {
   const hod= await Hod.findById({_id:id})
   if(hod){
     try{
-      const leaves=await Leave.find({ department: hod.department });
+      const leaves=await Leave.find({ department: hod.department }).sort({createdAt:-1});
       res.render("hodLeaveSign", {
                       hod: hod,
                       students: leaves
@@ -484,7 +484,7 @@ router.put("/warden/:id",async(req, res) => {
   if(!profileEditSubmit){
     return res.status(400).send({error:'No such User'})
   }
-  res.redirect("/hod/" + req.params.id);
+  res.redirect("/warden/" + req.params.id);
 } catch (error) {
     res.redirect('back');
     res.send(error.message)
@@ -500,7 +500,7 @@ router.get("/warden/:id/leave", async(req, res) => {
   const Wrdn= await Warden.findById({_id:id})
   if(Wrdn){
    try{
-    const std=await Leave.find({ hostel: Wrdn.hostel })
+    const std=await Leave.find({ hostel: Wrdn.hostel }).sort({createdAt:-1})
     res.render("wardenLeaveSign", {
       warden: Wrdn,
       students: std,
@@ -513,6 +513,68 @@ router.get("/warden/:id/leave", async(req, res) => {
   } catch (error) {
     res.redirect('back')
     console.log(error.message)
+  }
+});
+//approve leave status 
+router.get('/api/:id/leave/:leave/approve',async(req,res)=>{
+  try{
+    const {id,leave}=req.params;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      return res.status(404).send({error:'No such User'})
+    } 
+    if(!mongoose.Types.ObjectId.isValid(leave)){
+      return res.status(404).send({error:'No such leave'})
+    } 
+    const wrdn=await Warden.findById({_id:id});
+    const hod=await Hod.findById({_id:id});
+    if(wrdn||hod){
+      try {
+        await Leave.findOneAndUpdate({_id:leave},{
+          status:'approved'
+        })
+        if(wrdn){
+          res.redirect(`/warden/${req.params.id}/leave`) 
+        }else if(hod){
+          res.redirect(`/hod/${req.params.id}/leave`);
+        }
+      } catch (error) {
+        res.send(error.message);
+      }
+    }
+  }catch(err){
+    res.send(err.message)
+    res.redirect('back')
+  }
+});
+//deny leave status
+router.get('/api/:id/leave/:leave/deny',async(req,res)=>{
+  try{
+    const {id,leave}=req.params;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      return res.status(404).send({error:'No such User'})
+    } 
+    if(!mongoose.Types.ObjectId.isValid(leave)){
+      return res.status(404).send({error:'No such leave'})
+    } 
+    const wrdn=await Warden.findById({_id:id});
+    const hod=await Hod.findById({_id:id});
+    if(wrdn||hod){
+      try {
+        await Leave.findOneAndUpdate({_id:leave},{
+          status:'denied'
+        })
+        if(wrdn){
+          res.redirect(`/warden/${req.params.id}/leave`) 
+        }else if(hod){
+          res.redirect(`/hod/${req.params.id}/leave`);
+        }
+      } catch (error) {
+        res.send(error.message);
+      }
+    }
+  }catch(err){
+    res.send(err.message)
+    res.redirect('back')
   }
 });
 

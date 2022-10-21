@@ -39,19 +39,19 @@
 
       <td>
         <%if(leave.status==="pending"){%>
-        <button 
-          action="/warden/<%=warden.id%>/leave/<%=leave.std_id%>/approve?_method=PUT"
-          class="btn1 btn-block btn-success"
-          >Approve</button
+        <a
+        href="/api/<%=warden.id%>/leave/<%=leave._id%>/approve"
+          class="btn btn1 btn-block btn-success"
+          >Approve</a
         >
         <%}%>
       </td> 
       <td>
         <%if(leave.status==="pending"){%>
-          <button
-          action="/warden/<%=warden.id%>/leave/<%=leave.std_id%>/deny?_method=PUT"
-          class="btn2 btn-block btn-danger"
-          >Deny</button
+          <a 
+          href="/api/<%=warden.id%>/leave/<%=leave._id%>/deny"
+          class="btn btn2 btn-block btn-danger"
+          >Deny</a
         >
         <%}%>
       </td> 
@@ -59,12 +59,5 @@
     </tr>
   </table>
 </div>
-<script>
-const approve=document.querySelector('.btn1');
-const deny=document.querySelector('.btn2');
-approve.addEventListener('click',()=>{
-  const url=`/warden/<%=warden.id%>/leave/<%=leave.std_id%>/deny`
-})
-</script>
 
 <% include ./partial/footer %>

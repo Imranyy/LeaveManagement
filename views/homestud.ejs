@@ -43,7 +43,13 @@ margin-top: -181px;  text-align: -webkit-center;"
           <td><%=leave.from%></td>
           <td><%=leave.to%></td>
           <td><%=leave.days%></td>
-          <td><%=leave.pending%></td>
+          <td><%if(leave.status==='pending'){%>
+            <p style="color:blueviolet;"><%=leave.status%></p>
+            <%}else if(leave.status==='approved'){%>
+              <p style="color: green;"><%=leave.status%></p>
+              <%}else{%><p style="color: red;"><%=leave.status%></p>
+            <%}%>
+          </td>
 
         </tr>
 

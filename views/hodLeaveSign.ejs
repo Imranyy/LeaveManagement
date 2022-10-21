@@ -39,23 +39,23 @@
 
       <td>
         <%if(leave.status==="pending"){%>
-        <a
-          href="/hod/<%=hod.id%>/leave/<%=leave.std_id%>/info"
-          class="btn btn-block btn-success"
-          >Approve</a
-        >
-        <%}%>
-      </td>
-      <td>
-        <%if(leave.status==="pending"){%>
           <a
-          href="/hod/<%=hod.id%>/leave/<%=leave.std_id%>/info"
-          class="btn btn-block btn-danger"
-          >Deny</a
-        >
-        <%}%>
-      </td>
-      <%})%>
+          href="/api/<%=hod.id%>/leave/<%=leave._id%>/approve"
+            class="btn btn1 btn-block btn-success"
+            >Approve</a
+          >
+          <%}%>
+        </td> 
+        <td>
+          <%if(leave.status==="pending"){%>
+            <a 
+            href="/api/<%=hod.id%>/leave/<%=leave._id%>/deny"
+            class="btn btn2 btn-block btn-danger"
+            >Deny</a
+          >
+          <%}%>
+        </td> 
+        <%})%>
     </tr>
   </table>
 </div>
