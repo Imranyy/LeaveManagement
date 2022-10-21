@@ -29,7 +29,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(require('./routes/api'));
 //error handling
 app.use((err,req,res,next)=>{
-    res.status(422).send({error:err.message});
+    res.send({error:err.message});
 });
 
 

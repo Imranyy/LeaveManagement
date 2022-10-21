@@ -40,12 +40,12 @@ router.post('/student/register',async(req,res)=>{
      try {
       const {name,username,password,type,password2,hostel,department,image,leaves}=req.body;
       if(!name||!username||!type||!password||!password2||!hostel||!image||!department){
-          res.status(400).send('Please add fields')
+          res.send('Please add fields')
         }
         //check if user exist
         const userExist=await Student.findOne({name});
         if(userExist){
-          res.status(400).send('Student already Exists!!')
+          res.send('Student already Exists!!')
         }
         if(password!==password2){
           res.send('Password doesnot match!')
@@ -85,10 +85,10 @@ router.post('/student/register',async(req,res)=>{
             //check if user exist
             const userExist=await Hod.findOne({name});
             if(userExist){
-              res.status(400).send('HOD already Exists!!')
+              res.send('HOD already Exists!!')
             }
             if(password!==password2){
-              res.send('Password doesnot match!')
+              res.send('Password does not match!')
             }
             //Hashing password 
             const salt=await bcrypt.genSalt(10)
@@ -109,7 +109,7 @@ router.post('/student/register',async(req,res)=>{
             if(HodReg){
               res.redirect('/h.o.d/login')
             }else{
-              res.status(400).send('Invalid User Data')
+              res.send('Invalid User Data')
             }
       } catch (error) {
           res.send(error.message)
@@ -120,12 +120,12 @@ router.post('/student/register',async(req,res)=>{
       try {
           const {name,username,password,type,password2,hostel,department,image}=req.body;
           if(!name||!username||!type||!password||!password2||!hostel||!image||!department){
-              res.status(400).send('Please add fields')
+              res.send('Please add fields')
             }
             //check if user exist
             const userExist=await Warden.findOne({name});
             if(userExist){
-              res.status(400).send('Warden already Exists!!')
+              res.send('Warden already Exists!!')
             }
             if(password!==password2){
               res.send('Password doesnot match!')
@@ -148,7 +148,7 @@ router.post('/student/register',async(req,res)=>{
             if(WrdReg){
                 res.redirect("/wrdn/login");
             }else{
-              res.status(400).send('Invalid User Data')
+              res.send('Invalid User Data')
             }
       } catch (error) {
           res.send(error.message)
@@ -168,7 +168,7 @@ router.post('/student/login',async(req,res)=>{
     if(std&&(await bcrypt.compare(password,std.password))){
     res.redirect('/student/home/'+std.id);
     }else{
-    res.status(400).send('Invalid Credentials')
+    res.send('Invalid Credentials')
     }
 });
 
@@ -178,7 +178,7 @@ router.post('/hod/login',async(req,res)=>{
   if(hod&&(await bcrypt.compare(password,hod.password))){
   res.redirect('/hod/home/'+hod.id);
   }else{
-  res.status(400).send('Invalid Credentials')
+  res.send('Invalid Credentials')
   }
 });
 
@@ -188,7 +188,7 @@ router.post('/warden/login',async(req,res)=>{
   if(wrd&&(await bcrypt.compare(password,wrd.password))){
   res.redirect("/warden/home/"+wrd.id);
   }else{
-  res.status(400).send('Invalid Credentials')
+  res.send('Invalid Credentials')
   }
 });
 
@@ -245,13 +245,13 @@ router.patch("/student/:id",async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const profileEditSubmit= await Student.findOneAndUpdate({_id:id},{
     ...req.body
   })
   if(!profileEditSubmit){
-    return res.status(400).send({error:'No such User'})
+    return res.send({error:'No such User'})
   }
   res.redirect("/student/" + req.params.id);
 } catch (error) {
@@ -279,7 +279,7 @@ router.post("/student/apply/:id",async(req,res)=>{
   try{
  const {id}=req.params;
  if(!mongoose.Types.ObjectId.isValid(id)){
-  return res.status(404).send({error:'No such User'})
+  return res.send({error:'No such User'})
 } 
 const stdReal= await Student.findById({_id:id})
 if(stdReal){
@@ -329,7 +329,7 @@ router.get("/student/:id/track", async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const std= await Student.findById({_id:id})
   //const wrden=await Warden.findById({});
@@ -365,7 +365,7 @@ router.get("/hod/:id",async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const Hodprofile= await Hod.findById({_id:id})
   res.render("profilehod", { hod: Hodprofile });
@@ -378,7 +378,7 @@ router.get("/hod/:id/edit", async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const HodprofileEdit= await Hod.findById({_id:id})
   res.render("editH", { hod: HodprofileEdit });
@@ -391,13 +391,13 @@ router.put("/hod/:id",async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const profileEditSubmit= await Hod.findOneAndUpdate({_id:id},{
     ...req.body
   })
   if(!profileEditSubmit){
-    return res.status(400).send({error:'No such User'})
+    return res.send({error:'No such User'})
   }
   res.redirect("/hod/" + req.params.id);
 } catch (error) {
@@ -410,7 +410,7 @@ router.get("/hod/:id/leave", async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const hod= await Hod.findById({_id:id})
   if(hod){
@@ -436,7 +436,7 @@ router.get("/warden/home/:id",async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const homeWrd= await Warden.findById({_id:id})
   res.render("homewarden", { warden: homeWrd });
@@ -449,7 +449,7 @@ router.get("/warden/:id",async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const Wrdnprofile= await Warden.findById({_id:id})
   res.render("profilewarden", { warden: Wrdnprofile });
@@ -462,7 +462,7 @@ router.get("/warden/:id/edit", async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const WrdnprofileEdit= await Warden.findById({_id:id})
   res.render("editW", { warden: WrdnprofileEdit });
@@ -476,13 +476,13 @@ router.put("/warden/:id",async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const profileEditSubmit= await Hod.findOneAndUpdate({_id:id},{
     ...req.body
   })
   if(!profileEditSubmit){
-    return res.status(400).send({error:'No such User'})
+    return res.send({error:'No such User'})
   }
   res.redirect("/warden/" + req.params.id);
 } catch (error) {
@@ -495,7 +495,7 @@ router.get("/warden/:id/leave", async(req, res) => {
   try {
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
   const Wrdn= await Warden.findById({_id:id})
   if(Wrdn){
@@ -520,10 +520,10 @@ router.get('/api/:id/leave/:leave/approve',async(req,res)=>{
   try{
     const {id,leave}=req.params;
     if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
     if(!mongoose.Types.ObjectId.isValid(leave)){
-      return res.status(404).send({error:'No such leave'})
+      return res.send({error:'No such leave'})
     } 
     const wrdn=await Warden.findById({_id:id});
     const hod=await Hod.findById({_id:id});
@@ -551,10 +551,10 @@ router.get('/api/:id/leave/:leave/deny',async(req,res)=>{
   try{
     const {id,leave}=req.params;
     if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
+      return res.send({error:'No such User'})
     } 
     if(!mongoose.Types.ObjectId.isValid(leave)){
-      return res.status(404).send({error:'No such leave'})
+      return res.send({error:'No such leave'})
     } 
     const wrdn=await Warden.findById({_id:id});
     const hod=await Hod.findById({_id:id});
