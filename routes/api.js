@@ -9,7 +9,8 @@ jwt=require('jsonwebtoken');
 const router=express.Router();
 const {
     protect
-}=require('../controller/controller')
+}=require('../controller/controller');
+const leave = require('../models/leave');
  
 //view routes
 router.get('/',(req,res)=>{
@@ -191,19 +192,28 @@ router.post('/warden/login',async(req,res)=>{
   }
 });
 
-  
-router.get("/student/home/:id",async(req, res) => {
-  try {
+router.get('/student/home/:id',async(req,res)=>{
+  try{
     const {id}=req.params;
-   if(!mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
       return res.status(404).send({error:'No such User'})
     } 
-  const home= await Student.findById({_id:id})
-  res.render("homestud", { student: home });
-  } catch (error) {
-    res.send('Error:',error.message)
+    const stdReal= await Student.findById({_id:id})
+    if(stdReal){
+      try{
+        const findStdLeaves=await Leave.find({std_id:id})
+        const findStdDetails=await Student.findById({_id:id})
+        res.render("homestud", { student: findStdDetails, Leav:findStdLeaves });
+      }catch(err){
+        res.redirect("/student/home/" +req.params.id);
+        console.log(err.message)
+      }
+    }
+  }catch(err){
+    res.redirect("/student/home/" +req.params.id);
+    console.log(err.message)
   }
-});
+})
 //get std profile
 router.get("/student/:id",async(req, res) => {
   try {
@@ -264,53 +274,56 @@ router.get("/student/:id/apply", async(req, res) => {
     res.redirect("back")
   }
 });
- //submitting leave
- router.post("/student/apply/:id", (req, res) => {
-  Student.findById(req.params.id)
-    .populate("leaves")
-    .exec((err, student) => {
-      if (err) {
-        res.redirect("/student/home" +req.params.id);
-      } else {
-        date = new Date(req.body.leave.from);
-        todate = new Date(req.body.leave.to);
-        year = date.getFullYear();
-        month = date.getMonth() + 1;
-        dt = date.getDate();
-        todt = todate.getDate();
+//submit std leave
+router.post("/student/apply/:id",async(req,res)=>{
+  try{
+ const {id}=req.params;
+ if(!mongoose.Types.ObjectId.isValid(id)){
+  return res.status(404).send({error:'No such User'})
+} 
+const stdReal= await Student.findById({_id:id})
+if(stdReal){
+  try{
+    // const date = new Date(req.body.from);
+    // const year = date.getFullYear();
+    // const month = date.getMonth() + 1;
+    // const dt = date.getDate();
 
-        if (dt < 10) {
-          dt = "0" + dt;
-        }
-        if (month < 10) {
-          month = "0" + month;
-        }
-        console.log(todt - dt);
-        req.body.leave.days = todt - dt;
-        console.log(year + "-" + month + "-" + dt);
-        console.log(req.body.leave);
-        Leave.create(req.body.leave, (err, newLeave) => {
-          if (err) {
-            req.flash("error", "Something went wrong");
-            res.redirect("back");
-            console.log(err);
-          } else {
-            newLeave.stud.id = req.user._id;
-            newLeave.stud.username = req.user.username;
-            console.log("leave is applied by--" + req.user.username);
-
-            newLeave.save();
-
-            student.leaves.push(newLeave);
-
-            student.save();
-            req.flash("success", "Successfully applied for leave");
-            res.render("homestud", { student: student, moment: moment });
-          }
-        });
-      }
-    });
+    // const today = new Date(req.body.to);
+    // const todt = today.getDate();
+    // const year1 = date.getFullYear();
+    // const month1 = date.getMonth() + 1;
+    //     if (dt < 10) {
+    //       dt = "0" + dt;
+    //     }
+    //     if (month < 10) {
+    //       month = "0" + month;
+    //     }
+    //     req.body.days = todt - dt; 
+    const {name,hostel,subject,status,to,from,days,department}=req.body;
+     await Leave.create({
+      std_id:id,
+      name:stdReal.name,
+      subject:subject,
+      from:from,
+      to:to,
+      hostel:stdReal.hostel,
+      days:days,
+      status:status,
+      department:stdReal.department,
+    })
+    res.redirect("/student/home/" +req.params.id);
+  }catch(err){
+    res.redirect("/student/home/" +req.params.id);
+    console.log(err.message)
+  }
+}
+  }catch(err){
+    console.log(err.message)
+  }
 });
+
+
 //track leave
 router.get("/student/:id/track", async(req, res) => {
   try {
@@ -318,11 +331,19 @@ router.get("/student/:id/track", async(req, res) => {
    if(!mongoose.Types.ObjectId.isValid(id)){
       return res.status(404).send({error:'No such User'})
     } 
-  const leaveTrack= await Student.findById({_id:id})
-  res.render("trackLeave", { student: leaveTrack, moment: moment });
+  const std= await Student.findById({_id:id})
+  //const wrden=await Warden.findById({});
+  if(std){
+    try{
+      const leavestd=await Leave.find({std_id:id})
+      res.render("trackLeave", {student:std, leav: leavestd });
+    }catch(err){
+      res.redirect("/student/home/" +req.params.id);
+      console.log(err.message)
+    }
+  }
   } catch (error) {
-    res.status(500).send(error.message)
-    res.redirect("back")
+    console.log(error.message)
   }
 });
 
@@ -394,11 +415,10 @@ router.get("/hod/:id/leave", async(req, res) => {
   const hod= await Hod.findById({_id:id})
   if(hod){
     try{
-      const leaves=await Student.find({ department: hod.department });
+      const leaves=await Leave.find({ department: hod.department });
       res.render("hodLeaveSign", {
                       hod: hod,
-                      students: leaves,
-                      //moment: moment
+                      students: leaves
                     });
     }catch (err){
       console.log(err.message);
@@ -470,7 +490,7 @@ router.put("/warden/:id",async(req, res) => {
     res.send(error.message)
   }
 });
-//apply for leave warden
+//view student leave warden
 router.get("/warden/:id/leave", async(req, res) => {
   try {
     const {id}=req.params;
@@ -480,12 +500,10 @@ router.get("/warden/:id/leave", async(req, res) => {
   const Wrdn= await Warden.findById({_id:id})
   if(Wrdn){
    try{
-    const std=await Student.find({ hostel: Wrdn.hostel })
+    const std=await Leave.find({ hostel: Wrdn.hostel })
     res.render("wardenLeaveSign", {
       warden: Wrdn,
       students: std,
-
-     // moment: moment
     });
    }catch(err){
     res.redirect("back");
@@ -495,20 +513,6 @@ router.get("/warden/:id/leave", async(req, res) => {
   } catch (error) {
     res.redirect('back')
     console.log(error.message)
-  }
-});
-//track leave warden
-router.get("/warden/:id/track", async(req, res) => {
-  try {
-    const {id}=req.params;
-   if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).send({error:'No such User'})
-    } 
-  const leaveTrackWrdn= await Warden.findById({_id:id})
-  res.render("trackLeave", { warden: leaveTrackWrdn, moment: moment });
-  } catch (error) {
-    res.status(500).send(error.message)
-    res.redirect("back")
   }
 });
 

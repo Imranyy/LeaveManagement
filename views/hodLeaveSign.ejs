@@ -17,32 +17,45 @@
         Student Name
       </th>
       <th>
+        Leave Subject
+      </th>
+      <th>
         From
       </th>
       <th>To</th>
       <th>Days</th>
       <th>Status</th>
-      <th></th>
+      <th>Approve</th>
+      <th>Deny</th>
     </tr>
-    <%students.forEach(function(student){%> <% if(student.leaves.length>0){%>
+    <%students.forEach(function(leave){%>
     <tr>
-      <th><%=student.name%></th>
-      <%student.leaves.forEach(function(leave){%>
-      <td><%=moment(leave.from).format('DD/MM/YYYY')%></td>
-      <td><%=moment(leave.to).format('DD/MM/YYYY')%></td>
+      <th><%=leave.name%></th>
+      <th><%=leave.subject%></th>
+      <td><%=leave.from%></td>
+      <td><%=leave.to%></td>
       <td><%=leave.days%></td>
       <td><%=leave.status%></td>
 
       <td>
         <%if(leave.status==="pending"){%>
         <a
-          href="/hod/<%=hod.id%>/leave/<%=student.id%>/info"
+          href="/hod/<%=hod.id%>/leave/<%=leave.std_id%>/info"
           class="btn btn-block btn-success"
-          >more info</a
+          >Approve</a
         >
         <%}%>
       </td>
-      <%})}%> <%})%>
+      <td>
+        <%if(leave.status==="pending"){%>
+          <a
+          href="/hod/<%=hod.id%>/leave/<%=leave.std_id%>/info"
+          class="btn btn-block btn-danger"
+          >Deny</a
+        >
+        <%}%>
+      </td>
+      <%})%>
     </tr>
   </table>
 </div>

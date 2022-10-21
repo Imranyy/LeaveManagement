@@ -36,14 +36,15 @@ margin-top: -181px;  text-align: -webkit-center;"
           <th>Days</th>
           <th>Status</th>
         </tr>
-        <%student.leaves.forEach(function(leave){%>
+        <%Leav.forEach(function(leave){%>
 
         <tr>
           <td><%=leave.subject%></td>
-          <td><%=moment(leave.from).format('DD/MM/YYYY')%></td>
-          <td><%=moment(leave.to).format('DD/MM/YYYY')%></td>
+          <td><%=leave.from%></td>
+          <td><%=leave.to%></td>
           <td><%=leave.days%></td>
-          <td><%=leave.status%></td>
+          <td><%=leave.pending%></td>
+
         </tr>
 
         <%})%>

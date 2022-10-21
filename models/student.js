@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema =mongoose.Schema;
 
 const studentSchema = new Schema({
-  leaves: [
+  leaves: [ 
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Leave"

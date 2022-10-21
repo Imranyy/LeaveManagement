@@ -14,7 +14,7 @@ mongoose.connect(process.env.LOCALURI,{
         console.log(`server running on port ${port}`)
     })
 }).catch(err=>{
-    console.log("Error:",err.message)
+    console.log("Error:",err.message);
 })
 mongoose.Promise=global.Promise;
 
@@ -34,67 +34,6 @@ app.use((err,req,res,next)=>{
 
 
 
-  
-  
-  
-  
-  
-
-  
-  
-  
-  // app.get("/hod/:id", ensureAuthenticated, (req, res) => {
-  //   console.log(req.params.id);
-  //   Hod.findById(req.params.id).exec((err, foundHod) => {
-  //     if (err || !foundHod) {
-  //       req.flash("error", "Hod not found");
-  //       res.redirect("back");
-  //     } else {
-  //       res.render("profilehod", { hod: foundHod });
-  //     }
-  //   });
-  // });
-  // app.get("/hod/:id/edit", ensureAuthenticated, (req, res) => {
-  //   Hod.findById(req.params.id, (err, foundHod) => {
-  //     res.render("editH", { hod: foundHod });
-  //   });
-  // });
-  // app.put("/hod/:id", ensureAuthenticated, (req, res) => {
-  //   console.log(req.body.hod);
-  //   Hod.findByIdAndUpdate(req.params.id, req.body.hod, (err, updatedHod) => {
-  //     if (err) {
-  //       req.flash("error", err.message);
-  //       res.redirect("back");
-  //     } else {
-  //       req.flash("success", "Succesfully updated");
-  //       res.redirect("/hod/" + req.params.id);
-  //     }
-  //   });
-  // });
-  // app.get("/hod/:id/leave", (req, res) => {
-  //   Hod.findById(req.params.id).exec((err, hodFound) => {
-  //     if (err) {
-  //       req.flash("error", "hod not found with requested id");
-  //       res.redirect("back");
-  //     } else {
-  //       Student.find({ department: hodFound.department })
-  //         .populate("leaves")
-  //         .exec((err, students) => {
-  //           if (err) {
-  //             req.flash("error", "student not found with your department");
-  //             res.redirect("back");
-  //           } else {
-  //             res.render("hodLeaveSign", {
-  //               hod: hodFound,
-  //               students: students,
-  //               moment: moment
-  //             });
-              
-  //           }
-  //         });
-  //     }
-  //   });
-  // });
   
   // app.get("/hod/:id/leave/:stud_id/info", (req, res) => {
   //   Hod.findById(req.params.id).exec((err, hodFound) => {
