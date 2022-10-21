@@ -72,7 +72,7 @@ router.post('/student/register',async(req,res)=>{
           res.status(400).send('Invalid User Data')
         }
      } catch (error) {
-      console.log(error.message)
+      res.send(error.message)
      }
   }
   //hod register
@@ -112,7 +112,7 @@ router.post('/student/register',async(req,res)=>{
               res.status(400).send('Invalid User Data')
             }
       } catch (error) {
-          console.log(error.message)
+          res.send(error.message)
       }
   }
   //warden register
@@ -151,11 +151,11 @@ router.post('/student/register',async(req,res)=>{
               res.status(400).send('Invalid User Data')
             }
       } catch (error) {
-          console.log(error.message)
+          res.send(error.message)
       }
   }
   } catch (error) {
-      console.log(error.message)
+      res.send(error.message)
   }
 });
 
@@ -206,7 +206,7 @@ router.get('/student/home/:id',async(req,res)=>{
         res.render("homestud", { student: findStdDetails, Leav:findStdLeaves });
       }catch(err){
         res.redirect("/student/home/" +req.params.id);
-        console.log(err.message)
+        res.send(err.message)
       }
     }
   }catch(err){
@@ -270,7 +270,7 @@ router.get("/student/:id/apply", async(req, res) => {
   const leave= await Student.findById({_id:id})
   res.render("leaveApply", { student: leave });
   } catch (error) {
-    console.send('Error:',error.message)
+    res.send('Error:',error.message)
     res.redirect("back")
   }
 });
@@ -315,11 +315,11 @@ if(stdReal){
     res.redirect("/student/home/" +req.params.id);
   }catch(err){
     res.redirect("/student/home/" +req.params.id);
-    console.log(err.message)
+    res.send(err.message)
   }
 }
   }catch(err){
-    console.log(err.message)
+    res.send(err.message)
   }
 });
 
@@ -339,11 +339,11 @@ router.get("/student/:id/track", async(req, res) => {
       res.render("trackLeave", {student:std, leav: leavestd });
     }catch(err){
       res.redirect("/student/home/" +req.params.id);
-      console.log(err.message)
+      res.send(err.message)
     }
   }
   } catch (error) {
-    console.log(error.message)
+    res.send(error.message)
   }
 });
 
@@ -421,7 +421,7 @@ router.get("/hod/:id/leave", async(req, res) => {
                       students: leaves
                     });
     }catch (err){
-      console.log(err.message);
+      res.send(err.message);
       res.redirect("back");
     }
   }
@@ -468,7 +468,7 @@ router.get("/warden/:id/edit", async(req, res) => {
   res.render("editW", { warden: WrdnprofileEdit });
   } catch (error) {
     res.redirect('back')
-    console.log(error.message)
+    res.send(error.message)
   }
 });
 //submit warden edit profile
@@ -507,12 +507,12 @@ router.get("/warden/:id/leave", async(req, res) => {
     });
    }catch(err){
     res.redirect("back");
-    console.log(err.message)
+    res.send(err.message)
    }
   }
   } catch (error) {
     res.redirect('back')
-    console.log(error.message)
+    res.send(error.message)
   }
 });
 //approve leave status 
